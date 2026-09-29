@@ -1,0 +1,29 @@
+---
+import { isPlaceholder, type Certification } from '../data/site';
+
+interface Props {
+  items: readonly Certification[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="certs">
+  {
+    items.map((cert) => (
+      <li class="certs__item">
+        {isPlaceholder(cert.href) ? (
+          <>
+            <span>{cert.name}</span>
+            <span class="todo">TODO: Credly link</span>
+          </>
+        ) : (
+          <a href={cert.href} rel="noopener">
+            {cert.name}
+          </a>
+        )}
+        {cert.inProgress && <span class="certs__badge">In progress</span>}
+      </li>
+    ))
+  }
+</ul>

@@ -1,0 +1,48 @@
+# lychee configuration — see https://lychee.cli.rs
+
+# Persisted between runs by the workflow cache, so a green PR does not re-hit
+# every external host.
+cache = true
+max_cache_age = "2d"
+
+# Be a polite client: real browsers are what these hosts expect to see.
+user_agent = "Mozilla/5.0 (compatible; lychee link checker; +https://github.com/lycheeverse/lychee)"
+max_concurrency = 8
+timeout = 20
+retry_wait_time = 2
+max_retries = 3
+
+# 999 is LinkedIn's anti-bot response; 403/429 are rate limiting rather than a
+# dead link. Treating them as failures would make this job red forever.
+accept = ["200", "201", "202", "203", "204", "206", "403", "429", "999"]
+
+# The site is built with trailingSlash: 'always', so every internal link points
+# at a directory. Without this, lychee resolves /case-studies/foo/ to the folder
+# and never reads the HTML inside it — which also breaks fragment checking.
+index_files = ["index.html"]
+
+# Verify that in-page anchors such as /#case-studies actually exist in the
+# built HTML — a renamed section id is otherwise a silently dead nav link.
+include_fragments = "anchor-only"
+
+# mailto: links cannot be verified over the network.
+include_mail = false
+
+# Links inside <pre>/<code> are illustrative, not navigation.
+include_verbatim = false
+
+exclude = [
+  # The site's own origin. Canonical tags, og:url and the sitemap all point at
+  # the deployed URL, which on a pull request is either not deployed yet or is
+  # the *previous* version — checking it tells you nothing about the branch.
+  # The same paths are verified as local files by the --root-dir pass above.
+  "^https?://pabloflores2615\\.github\\.io",
+  # LinkedIn and Credly block datacenter IPs outright — a request from a GitHub
+  # runner is rejected regardless of user agent, so these cannot be verified
+  # from CI. Check them by hand when you change them.
+  "^https?://([a-z0-9-]+\\.)*linkedin\\.com",
+  "^https?://([a-z0-9-]+\\.)*credly\\.com",
+  # Placeholder values from src/data/site.ts. `npm run check:todo` is what
+  # reports these; they are not link failures.
+  "^TODO_",
+]

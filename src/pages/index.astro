@@ -1,0 +1,95 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import CaseStudyCard from '../components/CaseStudyCard.astro';
+import CertList from '../components/CertList.astro';
+import {
+  site,
+  contactLinks,
+  skillGroups,
+  certifications,
+  certificationsInProgress,
+  isPlaceholder,
+} from '../data/site';
+
+const caseStudies = (await getCollection('caseStudies', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<BaseLayout title={`${site.name} — ${site.title}`} description={site.description}>
+  <section class="hero" aria-labelledby="hero-name">
+    <div class="container container--wide">
+      <h1 class="hero__name" id="hero-name">{site.name}</h1>
+      <p class="hero__title">{site.titleLong}</p>
+      <p class="hero__location">{site.locationLine}</p>
+      <div class="hero__actions">
+        <a class="button button--primary" href={`mailto:${site.email}`}>Contact me</a>
+        <a class="button button--secondary" href="#case-studies">View case studies</a>
+      </div>
+    </div>
+  </section>
+
+  <Section id="about" title="About">
+    <p style="max-width: 68ch;">{site.about}</p>
+  </Section>
+
+  <Section
+    id="case-studies"
+    title="Case studies"
+    lead="Selected work. Each one covers the context, the decisions and the trade-offs behind them."
+  >
+    <ul class="card-grid">
+      {
+        caseStudies.map((entry) => (
+          <CaseStudyCard
+            href={`/case-studies/${entry.id}/`}
+            title={entry.data.title}
+            summary={entry.data.summary}
+            clientDescriptor={entry.data.clientDescriptor}
+            stack={entry.data.stack}
+          />
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section id="skills" title="Skills">
+    <dl class="skills">
+      {
+        skillGroups.map((group) => (
+          <div>
+            <dt class="skills__group-name">{group.name}</dt>
+            <dd class="skills__items">{group.items.join(' · ')}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </Section>
+
+  <Section id="certifications" title="Certifications">
+    <CertList items={certifications} />
+    <h3 class="skills__group-name" style="margin-top: var(--space-5);">In progress</h3>
+    <CertList items={certificationsInProgress} />
+  </Section>
+
+  <Section id="contact" title="Contact" lead="Open to contract and full-time work with US-based teams.">
+    <ul class="contact-list">
+      {
+        contactLinks.map((link) => (
+          <li class="contact-list__row">
+            <span class="contact-list__label">{link.label}</span>
+            {isPlaceholder(link.href) ? (
+              <span class="todo">TODO: add {link.label} URL in src/data/site.ts</span>
+            ) : (
+              <a href={link.href} rel="noopener">
+                {link.value}
+              </a>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+</BaseLayout>

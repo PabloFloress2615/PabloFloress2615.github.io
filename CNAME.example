@@ -1,0 +1,15 @@
+# Custom domain for GitHub Pages.
+#
+# This file lives at the repo root so it is NOT published. GitHub Pages reads
+# `public/CNAME` literally, so a file there containing a placeholder string would
+# make Pages serve the site on a domain that does not exist.
+#
+# To enable a custom domain:
+#   1. Copy this file to `public/CNAME` and replace the contents with the bare
+#      domain only — no scheme, no trailing slash, no comments. For example:
+#          pabloflores.dev
+#   2. Update `SITE` in `astro.config.mjs` to `https://<your-domain>`.
+#   3. Update the `Sitemap:` line in `public/robots.txt` to match.
+#   4. Create the DNS records listed in the README ("Custom domain").
+#   5. In the repo: Settings -> Pages -> Custom domain, then enable
+#      "Enforce HTTPS" once the certificate has been issued.

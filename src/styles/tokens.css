@@ -1,0 +1,95 @@
+/*
+ * Design tokens.
+ *
+ * Theme resolution order:
+ *   1. :root                                   -> light values (the default)
+ *   2. @media (prefers-color-scheme: dark)     -> dark, but only while the user
+ *      guarded by :root:not([data-theme='light'])  has not pinned light
+ *   3. :root[data-theme='dark']                -> dark, pinned by the toggle
+ *
+ * That ordering is what makes `prefers-color-scheme` the default while still
+ * letting the manual toggle win in both directions.
+ *
+ * Contrast (WCAG 2.1, against the surface each token is used on):
+ *   light: text 16.9:1 · text-muted 7.1:1 · accent 6.1:1
+ *   dark:  text 15.8:1 · text-muted 8.2:1 · accent 8.6:1
+ */
+
+:root {
+  /* Colour — light */
+  --color-bg: #ffffff;
+  --color-surface: #f6f7f9;
+  --color-surface-hover: #eef0f4;
+  --color-border: #d7dce3;
+  --color-border-strong: #b6bdc8;
+  --color-text: #16191f;
+  --color-text-muted: #545b68;
+  --color-accent: #0a5ad4;
+  --color-accent-hover: #084196;
+  --color-accent-contrast: #ffffff;
+  --color-focus: #0a5ad4;
+
+  /* Type */
+  --font-sans:
+    system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji';
+  --font-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.1875rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: clamp(2rem, 1.5rem + 2.2vw, 2.75rem);
+
+  --leading-tight: 1.2;
+  --leading-normal: 1.65;
+
+  /* Space — 4px base scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+
+  /* Shape */
+  --radius: 8px;
+  --radius-sm: 5px;
+  --container: 56rem;
+  --container-wide: 68rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg: #0f1115;
+    --color-surface: #171a20;
+    --color-surface-hover: #1e222a;
+    --color-border: #2a2f3a;
+    --color-border-strong: #3d4450;
+    --color-text: #e8eaed;
+    --color-text-muted: #a2abba;
+    --color-accent: #7cb0ff;
+    --color-accent-hover: #a5c8ff;
+    --color-accent-contrast: #0f1115;
+    --color-focus: #7cb0ff;
+  }
+}
+
+:root[data-theme='dark'] {
+  --color-bg: #0f1115;
+  --color-surface: #171a20;
+  --color-surface-hover: #1e222a;
+  --color-border: #2a2f3a;
+  --color-border-strong: #3d4450;
+  --color-text: #e8eaed;
+  --color-text-muted: #a2abba;
+  --color-accent: #7cb0ff;
+  --color-accent-hover: #a5c8ff;
+  --color-accent-contrast: #0f1115;
+  --color-focus: #7cb0ff;
+}

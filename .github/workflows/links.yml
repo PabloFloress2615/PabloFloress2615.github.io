@@ -1,0 +1,66 @@
+name: Link check
+
+on:
+  pull_request:
+    branches: [main]
+  # Catch link rot that appears after merge, without blocking anything.
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  # The scheduled run opens/updates an issue when a link breaks over time.
+  issues: write
+
+jobs:
+  links:
+    name: Check for broken links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Checking the built HTML rather than the Markdown source is what catches
+      # a broken internal link: a case study slug only becomes a real URL after
+      # the build resolves the route.
+      - name: Build site
+        run: npm run build
+
+      - name: Restore lychee cache
+        uses: actions/cache@v4
+        with:
+          path: .lycheecache
+          key: lychee-${{ github.sha }}
+          restore-keys: lychee-
+
+      - name: Run lychee
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --config lychee.toml
+            --root-dir "$(pwd)/dist"
+            'dist/**/*.html'
+            'README.md'
+          # Fail the pull request when a link is dead.
+          fail: ${{ github.event_name == 'pull_request' }}
+          output: lychee-report.md
+          jobSummary: true
+
+      - name: Open an issue on scheduled failures
+        if: github.event_name == 'schedule' && steps.lychee.outputs.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: Broken links detected
+          content-filepath: lychee-report.md
+          labels: bug, links

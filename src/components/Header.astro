@@ -1,0 +1,39 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import { site } from '../data/site';
+
+interface Props {
+  /** Case study pages link back to the home page anchors with an absolute path. */
+  anchorPrefix?: string;
+}
+
+const { anchorPrefix = '' } = Astro.props;
+
+const navItems = [
+  { label: 'About', href: `${anchorPrefix}#about` },
+  { label: 'Case studies', href: `${anchorPrefix}#case-studies` },
+  { label: 'Skills', href: `${anchorPrefix}#skills` },
+  { label: 'Certifications', href: `${anchorPrefix}#certifications` },
+  { label: 'Contact', href: `${anchorPrefix}#contact` },
+];
+---
+
+<header class="site-header">
+  <div class="container container--wide site-header__inner">
+    <a class="site-header__brand" href="/">{site.name}</a>
+    <nav class="site-nav" aria-label="Main">
+      <ul class="site-nav__list">
+        {
+          navItems.map((item) => (
+            <li>
+              <a class="site-nav__link" href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <ThemeToggle />
+    </nav>
+  </div>
+</header>

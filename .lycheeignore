@@ -1,0 +1,2 @@
+# Additional URLs for lychee to skip, one regex per line.
+# Domain-level exclusions and the rationale for each live in lychee.toml.

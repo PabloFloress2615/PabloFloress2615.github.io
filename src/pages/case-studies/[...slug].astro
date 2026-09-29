@@ -1,0 +1,57 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export const getStaticPaths = (async () => {
+  const entries = await getCollection('caseStudies', ({ data }) => !data.draft);
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, summary, clientDescriptor, stack, diagram } = entry.data;
+---
+
+<BaseLayout title={`${title} — Pablo Flores`} description={summary} type="article" anchorPrefix="/">
+  <div class="container container--wide">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/#case-studies">&larr; All case studies</a>
+    </nav>
+  </div>
+
+  <header class="case-header">
+    <div class="container container--wide">
+      <p class="case-header__client">{clientDescriptor}</p>
+      <h1 class="case-header__title">{title}</h1>
+      <p class="case-header__summary">{summary}</p>
+    </div>
+  </header>
+
+  <div class="container container--wide">
+    {
+      diagram && (
+        <figure class="case-figure">
+          <img
+            src={diagram.src}
+            alt={diagram.alt}
+            width={diagram.width}
+            height={diagram.height}
+            loading="lazy"
+            decoding="async"
+          />
+          {diagram.caption && <figcaption>{diagram.caption}</figcaption>}
+        </figure>
+      )
+    }
+
+    <article class="prose">
+      <Content />
+    </article>
+
+    <h2 class="skills__group-name">Full stack</h2>
+    <ul class="tags" aria-label="Full technology stack">
+      {stack.map((item) => <li class="tags__item">{item}</li>)}
+    </ul>
+  </div>
+</BaseLayout>
