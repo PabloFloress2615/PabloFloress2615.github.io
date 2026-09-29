@@ -72,37 +72,89 @@ export const skillGroups = [
 
 export type Certification = {
   name: string;
-  /** Credly badge URL. Placeholder until the real badge link is filled in. */
+  /** Issuing body, shown under the badge. */
+  issuer: string;
+  /**
+   * Credly badge URL, or TODO_ when the credential is not published on Credly.
+   * Oracle and Microsoft issue through their own platforms, not Credly.
+   */
   href: string;
+  /**
+   * Self-hosted badge artwork under public/images/badges/, 320x320.
+   * Downloaded from images.credly.com rather than hot-linked so the page makes
+   * no third-party requests. Omitted when no badge art is available.
+   */
+  badge?: string;
   inProgress?: boolean;
 };
 
 export const certifications: readonly Certification[] = [
-  { name: 'Certified Kubernetes Administrator (CKA)', href: 'TODO_CREDLY_BADGE_CKA' },
-  { name: 'Kubernetes and Cloud Native Associate (KCNA)', href: 'TODO_CREDLY_BADGE_KCNA' },
-  { name: 'Google Cloud Associate Cloud Engineer', href: 'TODO_CREDLY_BADGE_GCP_ACE' },
-  { name: 'AWS Solutions Architect – Associate', href: 'TODO_CREDLY_BADGE_AWS_SAA' },
-  { name: 'AWS Security – Specialty', href: 'TODO_CREDLY_BADGE_AWS_SCS' },
-  { name: 'HashiCorp Terraform Associate', href: 'TODO_CREDLY_BADGE_TERRAFORM' },
+  {
+    name: 'Certified Kubernetes Administrator (CKA)',
+    issuer: 'The Linux Foundation',
+    href: 'https://www.credly.com/badges/37d9f4a6-37ba-4f09-ba07-dc897d7266d8/public_url',
+    badge: '/images/badges/cka.png',
+  },
+  {
+    name: 'Kubernetes and Cloud Native Associate (KCNA)',
+    issuer: 'The Linux Foundation',
+    href: 'https://www.credly.com/badges/c0eaeef0-0384-417f-8fb5-8b60977fd323/public_url',
+    badge: '/images/badges/kcna.png',
+  },
+  {
+    name: 'Google Cloud Associate Cloud Engineer',
+    issuer: 'Google Cloud',
+    href: 'https://www.credly.com/badges/13de4162-8b37-4fa7-8011-6141c180b686/public_url',
+    badge: '/images/badges/gcp-ace.png',
+  },
+  {
+    name: 'AWS Solutions Architect \u2013 Associate',
+    issuer: 'Amazon Web Services',
+    href: 'https://www.credly.com/badges/ae918a6b-9358-45a6-b717-450cf68d4ad8/public_url',
+    badge: '/images/badges/aws-saa.png',
+  },
+  {
+    name: 'AWS Security \u2013 Specialty',
+    issuer: 'Amazon Web Services',
+    href: 'https://www.credly.com/badges/5f2ce083-90ed-4d23-9ea3-e08e5967a5ad/public_url',
+    badge: '/images/badges/aws-scs.png',
+  },
+  {
+    name: 'HashiCorp Terraform Associate',
+    issuer: 'HashiCorp',
+    href: 'https://www.credly.com/badges/9ccf7a9e-6bc7-428b-b2dc-f368ae0f0083/public_url',
+    badge: '/images/badges/terraform-associate.png',
+  },
   {
     name: 'Oracle Cloud Multicloud Architect Professional',
-    href: 'TODO_CREDLY_BADGE_OCI_MULTICLOUD',
+    issuer: 'Oracle',
+    // Oracle issues through its own CertView, not Credly.
+    href: 'https://catalog-education.oracle.com/pls/certview/sharebadge?id=EE63424739957BF893C99F5AD042E6327AE14C03396BA556A89B0FC96ACACC24',
+    badge: '/images/badges/oracle-multicloud.png',
   },
-  { name: 'Microsoft Azure Fundamentals (AZ-900)', href: 'TODO_CREDLY_BADGE_AZ900' },
+  {
+    name: 'Microsoft Azure Fundamentals (AZ-900)',
+    issuer: 'Microsoft',
+    // Microsoft issues through Microsoft Learn, not Credly.
+    href: 'https://learn.microsoft.com/api/credentials/share/es-es/PabloFlores-7917/7F0945D2B97BD9C8?sharingId=303CCA1E8CC86DEB',
+    badge: '/images/badges/az900.svg',
+  },
 ];
 
 export const certificationsInProgress: readonly Certification[] = [
   {
     name: 'Google Cloud Professional Cloud Architect',
-    href: 'TODO_CREDLY_BADGE_GCP_PCA',
+    issuer: 'Google Cloud',
+    href: '',
     inProgress: true,
   },
   {
     name: 'Certified Kubernetes Security Specialist (CKS)',
-    href: 'TODO_CREDLY_BADGE_CKS',
+    issuer: 'The Linux Foundation',
+    href: '',
     inProgress: true,
   },
 ];
 
-/** A placeholder link should not be clickable — it goes nowhere. */
-export const isPlaceholder = (href: string): boolean => href.startsWith('TODO_');
+/** A placeholder or empty link should not be clickable — it goes nowhere. */
+export const isPlaceholder = (href: string): boolean => href === '' || href.startsWith('TODO_');

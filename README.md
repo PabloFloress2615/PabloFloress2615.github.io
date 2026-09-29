@@ -45,6 +45,7 @@ scripts/check-todo.mjs        pre-launch gate for unfilled placeholders
 public/
   robots.txt  favicon.svg  CNAME.example
   images/                     og-default.png, azure-ha-dr.png
+    badges/                   certification artwork, 320x320, self-hosted
 src/
   content.config.ts           case study collection + schema
   content/case-studies/*.md   one file per case study  <- add new work here
@@ -202,13 +203,14 @@ Do *not* pick "Deploy from a branch" — the workflow uploads an artifact, so a
 branch-based source would serve nothing. The first deploy runs on the next push
 to `main`.
 
-### 3. Fill in the remaining placeholders (required before sharing the link)
+### 3. Placeholders — done
 
-`src/data/site.ts` is the only file to edit. The profile links (LinkedIn,
-Credly, GitHub, Toptal) are filled in. What is left is the **per-certification
-Credly badge URLs** — every `TODO_CREDLY_BADGE_*` in `certifications` and
-`certificationsInProgress`. Open each badge on your Credly profile and copy its
-public URL.
+`npm run check:todo` reports zero. All profile links and all ten certification
+credentials are wired up in `src/data/site.ts`.
+
+Note that not every credential lives on Credly: Oracle issues through its own
+CertView and Microsoft through Microsoft Learn, so those two point at their
+respective platforms.
 
 Placeholders render as a visible `TODO:` chip rather than a broken link, and
 they are excluded from the JSON-LD `sameAs` list so they cannot harm SEO. To
@@ -218,8 +220,21 @@ confirm none are left:
 npm run check:todo
 ```
 
-Also replace `public/images/azure-ha-dr.png` — it is currently a generated
-placeholder, not the real architecture diagram.
+What *is* still a placeholder is `public/images/azure-ha-dr.png` — a generated
+stand-in, not the real architecture diagram.
+
+#### Certification badge artwork
+
+Badge images are **self-hosted** under `public/images/badges/`, downloaded once
+from `images.credly.com` (and Oracle/Microsoft for the two non-Credly ones)
+rather than hot-linked. Hot-linking would add a third-party request per badge
+and put the page's rendering at the mercy of another CDN. They are normalised to
+320x320 and lazy-loaded, which is why they cost nothing in Lighthouse.
+
+To add or refresh one: drop a square PNG or SVG in `public/images/badges/` and
+point the `badge` field at it in `src/data/site.ts`. A certification with no
+`badge` field renders a neutral medal outline instead, at the same size, so the
+grid stays even.
 
 ### 4. Custom domain (optional)
 
