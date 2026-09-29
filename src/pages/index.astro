@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
 import CaseStudyCard from '../components/CaseStudyCard.astro';
 import CertList from '../components/CertList.astro';
+import ToptalBadge from '../components/ToptalBadge.astro';
 import {
   site,
   contactLinks,
@@ -20,14 +21,17 @@ const caseStudies = (await getCollection('caseStudies', ({ data }) => !data.draf
 
 <BaseLayout title={`${site.name} — ${site.title}`} description={site.description}>
   <section class="hero" aria-labelledby="hero-name">
-    <div class="container container--wide">
-      <h1 class="hero__name" id="hero-name">{site.name}</h1>
-      <p class="hero__title">{site.titleLong}</p>
-      <p class="hero__location">{site.locationLine}</p>
-      <div class="hero__actions">
-        <a class="button button--primary" href={`mailto:${site.email}`}>Contact me</a>
-        <a class="button button--secondary" href="#case-studies">View case studies</a>
+    <div class="container container--wide hero__inner">
+      <div class="hero__text">
+        <h1 class="hero__name" id="hero-name">{site.name}</h1>
+        <p class="hero__title">{site.titleLong}</p>
+        <p class="hero__location">{site.locationLine}</p>
+        <div class="hero__actions">
+          <a class="button button--primary" href={`mailto:${site.email}`}>Contact me</a>
+          <a class="button button--secondary" href="#case-studies">View case studies</a>
+        </div>
       </div>
+      <ToptalBadge />
     </div>
   </section>
 

@@ -271,6 +271,28 @@ main {
   }
 }
 
+.hero__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+}
+
+/* The badge moves beside the intro once there is room for it; below the
+   breakpoint it stacks under the call-to-action buttons. */
+@media (min-width: 48rem) {
+  .hero__inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-7);
+  }
+}
+
+.hero__text {
+  min-width: 0;
+}
+
 .hero__name {
   font-size: var(--text-3xl);
   letter-spacing: -0.025em;

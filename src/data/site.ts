@@ -23,16 +23,22 @@ export const site = {
 
 export const links = {
   github: 'https://github.com/PabloFloress2615',
-  linkedin: 'TODO_LINKEDIN_URL',
-  credly: 'TODO_CREDLY_URL',
+  linkedin: 'https://www.linkedin.com/in/pablo-david-flores-flores-5b1365239/',
+  credly: 'https://www.credly.com/users/pablo-flores.729eed63',
+  toptal: 'https://www.toptal.com/developers/resume/pablo-david-flores-flores#Wao9W7',
 } as const;
 
 /** Links rendered in the contact section and footer, in order. */
 export const contactLinks = [
   { label: 'Email', value: site.email, href: `mailto:${site.email}` },
-  { label: 'LinkedIn', value: 'linkedin.com/in/…', href: links.linkedin },
+  {
+    label: 'LinkedIn',
+    value: 'linkedin.com/in/pablo-david-flores-flores',
+    href: links.linkedin,
+  },
   { label: 'GitHub', value: 'github.com/PabloFloress2615', href: links.github },
-  { label: 'Credly', value: 'credly.com/users/…', href: links.credly },
+  { label: 'Credly', value: 'credly.com/users/pablo-flores', href: links.credly },
+  { label: 'Toptal', value: 'Vetted Toptal profile', href: links.toptal },
 ] as const;
 
 export const skillGroups = [

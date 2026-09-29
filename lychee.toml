@@ -42,6 +42,10 @@ exclude = [
   # from CI. Check them by hand when you change them.
   "^https?://([a-z0-9-]+\\.)*linkedin\\.com",
   "^https?://([a-z0-9-]+\\.)*credly\\.com",
+  # The Toptal resume link ends in `#Wao9W7`, which is Toptal's own referral
+  # token rather than an in-page anchor — fragment checking reports it as a
+  # missing fragment on an otherwise healthy page.
+  "^https?://([a-z0-9-]+\\.)*toptal\\.com",
   # Placeholder values from src/data/site.ts. `npm run check:todo` is what
   # reports these; they are not link failures.
   "^TODO_",

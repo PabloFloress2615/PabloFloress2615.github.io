@@ -15,6 +15,7 @@ Live: <https://pabloflores2615.github.io/> *(after the one-time setup below)*
 | Content | **Content collections** + Markdown | A new case study is one `.md` file, validated against a schema at build time |
 | Styling | **Plain CSS** with custom properties | No build step beyond Astro, no framework to audit or upgrade |
 | Fonts | **System font stack** | No webfont request, so no render-blocking round trip and no layout shift |
+| Toptal badge | Inlined as a component | The snippet Toptal supplies `@import`s a Typekit webfont; that import is dropped — see `src/components/ToptalBadge.astro` |
 | Sitemap | `@astrojs/sitemap` | The only integration in the project |
 | Hosting | **GitHub Pages** via `actions/deploy-pages` | No `gh-pages` branch, no deploy key — OIDC only |
 | Link checking | **lychee** on pull requests | Verifies the *built* HTML, including in-page anchors |
@@ -49,7 +50,8 @@ src/
   content/case-studies/*.md   one file per case study  <- add new work here
   data/site.ts                name, links, skills, certifications
   layouts/BaseLayout.astro    <head>, header, footer, theme script
-  components/                 Seo, Header, Footer, ThemeToggle, Section, cards
+  components/                 Seo, Header, Footer, ThemeToggle, Section,
+                              cards, ToptalBadge
   pages/
     index.astro               the single-page site
     case-studies/[...slug].astro
@@ -163,6 +165,9 @@ Two exclusions in `lychee.toml` are worth knowing about:
 - **LinkedIn and Credly** reject requests from datacenter IPs regardless of user
   agent, so a GitHub runner can never verify them. Check those by hand when you
   change them.
+- **Toptal** is excluded because the resume link ends in `#Wao9W7`, which is
+  Toptal's referral token rather than an in-page anchor — fragment checking
+  reports it as missing on a page that is perfectly healthy.
 - **The site's own origin** is excluded because canonical tags and `og:url`
   point at the deployed URL, which on a pull request is the *previous* version.
   Those same paths are verified as local files instead.
@@ -197,13 +202,13 @@ Do *not* pick "Deploy from a branch" — the workflow uploads an artifact, so a
 branch-based source would serve nothing. The first deploy runs on the next push
 to `main`.
 
-### 3. Fill in the placeholders (required before sharing the link)
+### 3. Fill in the remaining placeholders (required before sharing the link)
 
-`src/data/site.ts` is the only file to edit:
-
-- `links.linkedin` — currently `TODO_LINKEDIN_URL`
-- `links.credly` — currently `TODO_CREDLY_URL`
-- every `TODO_CREDLY_BADGE_*` in `certifications` and `certificationsInProgress`
+`src/data/site.ts` is the only file to edit. The profile links (LinkedIn,
+Credly, GitHub, Toptal) are filled in. What is left is the **per-certification
+Credly badge URLs** — every `TODO_CREDLY_BADGE_*` in `certifications` and
+`certificationsInProgress`. Open each badge on your Credly profile and copy its
+public URL.
 
 Placeholders render as a visible `TODO:` chip rather than a broken link, and
 they are excluded from the JSON-LD `sameAs` list so they cannot harm SEO. To
