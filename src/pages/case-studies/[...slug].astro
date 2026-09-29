@@ -11,6 +11,23 @@ export const getStaticPaths = (async () => {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const { title, summary, clientDescriptor, stack, diagram } = entry.data;
+
+// Diagrams are inlined rather than served as <img src>, so their fills and
+// strokes resolve against the page's theme tokens and follow the light/dark
+// toggle. Eager glob: the build is static, and there are four of them.
+const diagramFiles = import.meta.glob<string>('/src/diagrams/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+const diagramSvg = diagram ? diagramFiles[`/src/diagrams/${diagram.file}.svg`] : undefined;
+
+if (diagram && !diagramSvg) {
+  throw new Error(
+    `Case study "${entry.id}" references src/diagrams/${diagram.file}.svg, which does not exist.`,
+  );
+}
 ---
 
 <BaseLayout title={`${title} — Pablo Flores`} description={summary} type="article" anchorPrefix="/">
@@ -30,16 +47,13 @@ const { title, summary, clientDescriptor, stack, diagram } = entry.data;
 
   <div class="container container--wide">
     {
-      diagram && (
+      diagram && diagramSvg && (
         <figure class="case-figure">
-          <img
-            src={diagram.src}
-            alt={diagram.alt}
-            width={diagram.width}
-            height={diagram.height}
-            loading="lazy"
-            decoding="async"
-          />
+          {/* The SVG itself is aria-hidden; this paragraph is the accessible
+              description, so screen readers get prose instead of shape soup. */}
+          <div class="diagram-scroll" role="img" aria-label={diagram.alt}>
+            <Fragment set:html={diagramSvg} />
+          </div>
           {diagram.caption && <figcaption>{diagram.caption}</figcaption>}
         </figure>
       )

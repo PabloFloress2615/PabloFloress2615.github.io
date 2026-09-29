@@ -156,5 +156,45 @@ export const certificationsInProgress: readonly Certification[] = [
   },
 ];
 
+/**
+ * Additional training, shown smaller and below the certifications.
+ *
+ * Deliberately curated, not the full Credly profile: these five reinforce the
+ * GitOps, DevSecOps and SRE claims made in the skills section. Sales and
+ * introductory badges are left off — next to a CKA they dilute rather than add.
+ */
+export const additionalTraining: readonly Certification[] = [
+  {
+    name: 'GitOps: Continuous Delivery on Kubernetes with Flux (LFS269)',
+    issuer: 'The Linux Foundation',
+    href: 'https://www.credly.com/badges/770fbab2-9649-4fe7-9e86-a21c1b49f954/public_url',
+    badge: '/images/badges/training/lfs269-gitops-flux.png',
+  },
+  {
+    name: 'Implementing DevSecOps (LFS262)',
+    issuer: 'The Linux Foundation',
+    href: 'https://www.credly.com/badges/bbb941bf-2f1f-4efd-88b8-d73419eb8c8e/public_url',
+    badge: '/images/badges/training/lfs262-devsecops.png',
+  },
+  {
+    name: 'DevOps and SRE Fundamentals (LFS261)',
+    issuer: 'The Linux Foundation',
+    href: 'https://www.credly.com/badges/f2c02ddf-325a-4d4e-8817-b0b97c01351d/public_url',
+    badge: '/images/badges/training/lfs261-devops-sre.png',
+  },
+  {
+    name: 'DevOps IT Professional Program',
+    issuer: 'The Linux Foundation',
+    href: 'https://www.credly.com/badges/f7502d8a-0130-4d4f-8e42-0423acb63ce0/public_url',
+    badge: '/images/badges/training/lf-devops-professional.png',
+  },
+  {
+    name: 'GitHub Foundations',
+    issuer: 'GitHub',
+    href: 'https://www.credly.com/badges/7406e7fd-6f9c-4236-9303-7bb8d1c016c7/public_url',
+    badge: '/images/badges/training/github-foundations.png',
+  },
+];
+
 /** A placeholder or empty link should not be clickable — it goes nowhere. */
 export const isPlaceholder = (href: string): boolean => href === '' || href.startsWith('TODO_');

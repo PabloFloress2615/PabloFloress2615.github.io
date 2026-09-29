@@ -11,11 +11,9 @@ stack:
   - SQL Managed Instance
   - Terraform
 diagram:
-  src: '/images/azure-ha-dr.png'
-  alt: 'Architecture diagram: Azure Front Door Premium with WAF fronting zone-redundant App Service instances in East US 2 and South Central US, each connected over Private Link to a SQL Managed Instance pair in a cross-region Auto-Failover Group.'
-  caption: 'TODO: replace with the final architecture diagram (public/images/azure-ha-dr.png is a placeholder).'
-  width: 1200
-  height: 675
+  file: 'azure-ha-dr'
+  alt: 'User traffic reaches Azure Front Door Premium, which applies WAF rules and terminates TLS, then forwards over Private Link to zone-redundant App Service instances in two regions: East US 2 as the active primary and South Central US as a warm standby. Each App Service reaches a SQL Managed Instance Business Critical over a private endpoint. The two databases form a cross-region Auto-Failover Group replicating with 1 to 5 seconds of lag, behind a stable listener endpoint that keeps the connection string unchanged through a failover. Front Door reroutes on health probe in under 90 seconds.'
+  caption: 'Traffic path and failover boundaries. The listener endpoint is what keeps the application unaware of a database failover.'
 ---
 
 ## Context

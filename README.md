@@ -44,11 +44,12 @@ scripts/check-todo.mjs        pre-launch gate for unfilled placeholders
   links.yml                   broken-link check on PRs, plus a weekly sweep
 public/
   robots.txt  favicon.svg  CNAME.example
-  images/                     og-default.png, azure-ha-dr.png
+  images/                     og-default.png
     badges/                   certification artwork, 320x320, self-hosted
 src/
   content.config.ts           case study collection + schema
   content/case-studies/*.md   one file per case study  <- add new work here
+  diagrams/*.svg              architecture diagrams, inlined at build time
   data/site.ts                name, links, skills, certifications
   layouts/BaseLayout.astro    <head>, header, footer, theme script
   components/                 Seo, Header, Footer, ThemeToggle, Section,
@@ -59,6 +60,7 @@ src/
     404.astro
   styles/
     tokens.css                colours, type scale, spacing, light/dark
+    diagram.css               primitives the inline SVG diagrams draw with
     global.css                reset, layout, components, prose
 ```
 
@@ -105,11 +107,9 @@ locally — CI runs it on every pull request regardless.
      - Terraform
      - Amazon EKS
    diagram:                                        # optional
-     src: '/images/your-diagram.png'
+     file: 'your-diagram'                          # src/diagrams/your-diagram.svg
      alt: 'Describe what the diagram shows, not that it is a diagram.'
      caption: 'Optional caption.'
-     width: 1200
-     height: 675
    draft: false                                    # true hides it from the build
    ---
    ```
@@ -220,8 +220,27 @@ confirm none are left:
 npm run check:todo
 ```
 
-What *is* still a placeholder is `public/images/azure-ha-dr.png` — a generated
-stand-in, not the real architecture diagram.
+#### Architecture diagrams
+
+All four case studies carry a diagram, authored as **inline SVG** in
+`src/diagrams/` and inlined into the page at build time by
+`src/pages/case-studies/[...slug].astro`.
+
+Inline rather than `<img src>` for one reason: a raster diagram has a fixed
+background and reads as a bright slab in dark mode, and a `<picture>` with
+`prefers-color-scheme` would not follow the site's manual theme toggle. Inline
+SVG inherits the page's CSS, so the diagrams use the primitives in
+`src/styles/diagram.css` (`.d-box`, `.d-edge`, `.d-title`, …) which resolve
+against the theme tokens. Change a colour token and the diagrams follow.
+
+Each SVG is `aria-hidden`; the accessible description is the `alt` string in the
+case study frontmatter, applied to the wrapper as `role="img"`, so a screen
+reader gets prose rather than a pile of unlabelled shapes. Below 56rem the
+figure scrolls horizontally rather than shrinking labels into illegibility.
+
+To add one: write `src/diagrams/<name>.svg` using those classes and set
+`diagram.file: '<name>'` in the frontmatter. A frontmatter reference to a file
+that does not exist fails the build rather than rendering an empty figure.
 
 #### Certification badge artwork
 

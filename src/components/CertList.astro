@@ -3,12 +3,14 @@ import { isPlaceholder, type Certification } from '../data/site';
 
 interface Props {
   items: readonly Certification[];
+  /** Smaller badges, for the secondary training list. */
+  compact?: boolean;
 }
 
-const { items } = Astro.props;
+const { items, compact = false } = Astro.props;
 ---
 
-<ul class="certs">
+<ul class:list={['certs', compact && 'certs--compact']}>
   {
     items.map((cert) => {
       const linked = !isPlaceholder(cert.href);
@@ -152,5 +154,26 @@ const { items } = Astro.props;
     font-family: var(--font-mono);
     border-style: dashed;
     border-color: var(--color-border-strong);
+  }
+
+  /* Secondary list: same grid, smaller artwork and type, so it reads as
+     supporting evidence rather than competing with the certifications. */
+  .certs--compact .certs__badge-img {
+    max-width: 4rem;
+  }
+
+  .certs--compact .certs__name {
+    font-size: var(--text-xs);
+    font-weight: 550;
+  }
+
+  .certs--compact .certs__card {
+    padding-block: var(--space-3);
+  }
+
+  @media (min-width: 48rem) {
+    .certs--compact {
+      grid-template-columns: repeat(5, 1fr);
+    }
   }
 </style>

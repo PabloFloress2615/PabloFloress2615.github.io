@@ -1,0 +1,103 @@
+<svg class="diagram" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <defs>
+    <marker id="oh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" class="d-arrow" />
+    </marker>
+    <marker id="oh-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" class="d-arrow--accent" />
+    </marker>
+  </defs>
+
+  <!-- ===== fleet ===== -->
+  <rect class="d-region" x="24" y="44" width="266" height="512" rx="10" />
+  <text class="d-region-label" x="44" y="72">MANAGED VMWARE PLATFORM</text>
+  <text class="d-sub" x="44" y="94">3,000+ VMs · 7 countries</text>
+  <text class="d-mono" x="44" y="114">previously: no metrics at all</text>
+
+  <text class="d-mono" x="44" y="150">agent installed per OS family</text>
+
+  <rect class="d-box" x="44" y="164" width="106" height="34" rx="5" />
+  <text class="d-sub" x="97" y="186" text-anchor="middle">CentOS</text>
+  <rect class="d-box" x="164" y="164" width="106" height="34" rx="5" />
+  <text class="d-sub" x="217" y="186" text-anchor="middle">RHEL</text>
+  <rect class="d-box" x="44" y="208" width="106" height="34" rx="5" />
+  <text class="d-sub" x="97" y="230" text-anchor="middle">Rocky</text>
+  <rect class="d-box" x="164" y="208" width="106" height="34" rx="5" />
+  <text class="d-sub" x="217" y="230" text-anchor="middle">Ubuntu</text>
+  <rect class="d-box" x="44" y="252" width="106" height="34" rx="5" />
+  <text class="d-sub" x="97" y="274" text-anchor="middle">SUSE</text>
+  <rect class="d-box" x="164" y="252" width="106" height="34" rx="5" />
+  <text class="d-sub" x="217" y="274" text-anchor="middle">Windows</text>
+
+  <rect class="d-box d-box--accent" x="44" y="320" width="226" height="72" rx="7" />
+  <text class="d-title" x="157" y="348" text-anchor="middle">Grafana Alloy</text>
+  <text class="d-sub" x="157" y="370" text-anchor="middle">cross-distribution install scripts</text>
+
+  <text class="d-mono" x="44" y="432">One rollout path across six</text>
+  <text class="d-mono" x="44" y="450">operating system families —</text>
+  <text class="d-mono" x="44" y="468">the bulk of the work.</text>
+
+  <!-- fleet to cluster -->
+  <path class="d-edge d-edge--accent" d="M290 356 L358 356" marker-end="url(#oh-a)" />
+  <text class="d-accent-label" x="324" y="344" text-anchor="middle">scrape</text>
+
+  <!-- ===== monitoring cluster ===== -->
+  <rect class="d-region" x="358" y="44" width="304" height="512" rx="10" />
+  <text class="d-region-label" x="378" y="72">HA KUBERNETES CLUSTER</text>
+  <text class="d-sub" x="378" y="94">spanning two datacentres</text>
+
+  <rect class="d-box d-box--muted" x="378" y="112" width="128" height="58" rx="6" />
+  <text class="d-sub" x="442" y="136" text-anchor="middle">Datacentre A</text>
+  <text class="d-mono" x="442" y="155" text-anchor="middle">nodes</text>
+  <rect class="d-box d-box--muted" x="516" y="112" width="128" height="58" rx="6" />
+  <text class="d-sub" x="580" y="136" text-anchor="middle">Datacentre B</text>
+  <text class="d-mono" x="580" y="155" text-anchor="middle">nodes</text>
+
+  <path class="d-edge d-edge--dashed" d="M506 141 L516 141" />
+  <text class="d-mono" x="511" y="188" text-anchor="middle">quorum survives losing either site</text>
+
+  <rect class="d-box d-box--accent" x="378" y="214" width="266" height="84" rx="7" />
+  <text class="d-title" x="511" y="242" text-anchor="middle">Prometheus</text>
+  <text class="d-sub" x="511" y="264" text-anchor="middle">metrics storage and alert rules</text>
+  <text class="d-mono" x="511" y="284" text-anchor="middle">per-client recording rules</text>
+
+  <path class="d-edge" d="M511 298 L511 330" marker-end="url(#oh)" />
+
+  <rect class="d-box d-box--accent" x="378" y="330" width="266" height="84" rx="7" />
+  <text class="d-title" x="511" y="358" text-anchor="middle">Grafana</text>
+  <text class="d-sub" x="511" y="380" text-anchor="middle">dashboards and alerting profiles</text>
+  <text class="d-mono" x="511" y="400" text-anchor="middle">isolated per client</text>
+
+  <text class="d-mono" x="378" y="456">Monitoring does not share a</text>
+  <text class="d-mono" x="378" y="474">failure domain with any single</text>
+  <text class="d-mono" x="378" y="492">site it observes.</text>
+
+  <!-- cluster to clients -->
+  <path class="d-edge d-edge--accent" d="M662 372 L730 372" marker-end="url(#oh-a)" />
+
+  <!-- ===== per-client delivery ===== -->
+  <rect class="d-region" x="730" y="44" width="246" height="512" rx="10" />
+  <text class="d-region-label" x="750" y="72">PER-CLIENT DELIVERY</text>
+  <text class="d-sub" x="750" y="94">isolation, not a shared view</text>
+
+  <rect class="d-box" x="750" y="116" width="206" height="76" rx="7" />
+  <text class="d-title" x="770" y="142">Client A</text>
+  <text class="d-sub" x="770" y="162">own dashboards</text>
+  <text class="d-mono" x="770" y="181">alerts mapped to its SLA</text>
+
+  <rect class="d-box" x="750" y="208" width="206" height="76" rx="7" />
+  <text class="d-title" x="770" y="234">Client B</text>
+  <text class="d-sub" x="770" y="254">own dashboards</text>
+  <text class="d-mono" x="770" y="273">alerts mapped to its SLA</text>
+
+  <rect class="d-box" x="750" y="300" width="206" height="76" rx="7" />
+  <text class="d-title" x="770" y="326">Client C</text>
+  <text class="d-sub" x="770" y="346">own dashboards</text>
+  <text class="d-mono" x="770" y="365">alerts mapped to its SLA</text>
+
+  <text class="d-sub" x="853" y="404" text-anchor="middle">…</text>
+
+  <text class="d-mono" x="750" y="456">Thresholds follow each</text>
+  <text class="d-mono" x="750" y="474">client's contracted SLA,</text>
+  <text class="d-mono" x="750" y="492">not a platform default.</text>
+</svg>

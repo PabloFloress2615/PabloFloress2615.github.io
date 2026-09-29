@@ -10,6 +10,10 @@ stack:
   - Kubernetes
   - VMware
   - Ansible
+diagram:
+  file: 'hybrid-observability'
+  alt: 'A managed VMware platform of more than 3,000 virtual machines across seven countries, spanning six operating system families — CentOS, RHEL, Rocky, Ubuntu, SUSE and Windows Server — each running a Grafana Alloy agent installed by a per-distribution script. Metrics are scraped into a highly available Kubernetes cluster spanning two datacentres, where Prometheus stores them and Grafana serves them. Output is isolated per client: each gets its own dashboards and an alerting profile whose thresholds match that client contracted SLA rather than a platform-wide default.'
+  caption: 'Collection, storage and delivery. Client isolation happens at the dashboard and alerting layer, not by filtering one shared view.'
 ---
 
 ## Context

@@ -10,6 +10,10 @@ stack:
   - PGP
   - Terraform
   - CI/CD
+diagram:
+  file: 'sftp-transfer-family'
+  alt: 'Self-managed SFTP servers on EC2 were retired. Partners now connect with an unchanged SFTP client, authenticating with SSH keys, to a managed AWS Transfer Family endpoint backed by Amazon S3. An upload event triggers a Lambda for post-transfer processing, which encrypts each file with the recipient own PGP public key before delivery, so only that destination can read it. Underneath, Terraform and a CI/CD pipeline manage every connection, turning manual setup into peer-reviewed changes with an audit trail.'
+  caption: 'Two independent layers of protection, and a control plane where adding a partner is a reviewed commit rather than a manual procedure.'
 ---
 
 ## Context

@@ -1,0 +1,83 @@
+<svg class="diagram" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <defs>
+    <marker id="eh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" class="d-arrow" />
+    </marker>
+    <marker id="eh-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" class="d-arrow--accent" />
+    </marker>
+  </defs>
+
+  <!-- deploy request -->
+  <rect class="d-box d-box--muted" x="24" y="96" width="186" height="72" rx="7" />
+  <text class="d-title" x="117" y="124" text-anchor="middle">Deploy request</text>
+  <text class="d-sub" x="117" y="146" text-anchor="middle">kubectl · CI pipeline</text>
+
+  <path class="d-edge d-edge--accent" d="M210 132 L268 132" marker-end="url(#eh-a)" />
+
+  <!-- admission control -->
+  <rect class="d-box d-box--accent" x="268" y="84" width="230" height="96" rx="7" />
+  <text class="d-title" x="383" y="114" text-anchor="middle">OPA Gatekeeper</text>
+  <text class="d-sub" x="383" y="136" text-anchor="middle">validating admission webhook</text>
+  <text class="d-mono" x="383" y="158" text-anchor="middle">evaluated before persist</text>
+
+  <path class="d-edge d-edge--accent" d="M498 132 L570 132" marker-end="url(#eh-a)" />
+  <text class="d-accent-label" x="534" y="120" text-anchor="middle">admitted</text>
+
+  <!-- rejection path -->
+  <path class="d-edge d-edge--dashed" d="M383 180 L383 218 L117 218 L117 180" marker-end="url(#eh)" />
+  <text class="d-mono" x="250" y="248" text-anchor="middle">rejected: hostPath mount · over-broad role · missing NetworkPolicy</text>
+
+  <text class="d-sub" x="250" y="288" text-anchor="middle">Remediation that lives only in a ticket regresses.</text>
+  <text class="d-sub" x="250" y="308" text-anchor="middle">Encoded as policy, the remediated state is the</text>
+  <text class="d-sub" x="250" y="328" text-anchor="middle">only state that can be deployed.</text>
+
+  <!-- remediation, one full-width row each so nothing clips -->
+  <rect class="d-region" x="24" y="350" width="452" height="218" rx="10" />
+  <text class="d-region-label" x="44" y="378">REMEDIATION, PRIORITISED FROM THE AUDIT</text>
+
+  <rect class="d-box" x="44" y="392" width="412" height="50" rx="6" />
+  <text class="d-sub" x="62" y="412">Least-privilege RBAC</text>
+  <text class="d-mono" x="62" y="432">roles narrowed to actual need</text>
+
+  <rect class="d-box" x="44" y="450" width="412" height="50" rx="6" />
+  <text class="d-sub" x="62" y="470">hostPath mounts removed</text>
+  <text class="d-mono" x="62" y="490">container-escape path closed</text>
+
+  <rect class="d-box" x="44" y="508" width="412" height="50" rx="6" />
+  <text class="d-sub" x="62" y="528">NetworkPolicies — east-west segmentation</text>
+  <text class="d-mono" x="62" y="548">default-allow replaced with explicit paths</text>
+
+  <!-- ===== cluster ===== -->
+  <rect class="d-region" x="570" y="40" width="406" height="528" rx="10" />
+  <text class="d-region-label" x="592" y="68">PRODUCTION EKS CLUSTER</text>
+  <text class="d-sub" x="592" y="90">east-west traffic is deny by default</text>
+
+  <rect class="d-box d-box--accent" x="592" y="118" width="164" height="70" rx="7" />
+  <text class="d-title" x="674" y="146" text-anchor="middle">namespace: web</text>
+  <text class="d-mono" x="674" y="168" text-anchor="middle">ingress tier</text>
+
+  <rect class="d-box d-box--accent" x="592" y="244" width="164" height="70" rx="7" />
+  <text class="d-title" x="674" y="272" text-anchor="middle">namespace: api</text>
+  <text class="d-mono" x="674" y="294" text-anchor="middle">application tier</text>
+
+  <rect class="d-box d-box--accent" x="592" y="370" width="164" height="70" rx="7" />
+  <text class="d-title" x="674" y="398" text-anchor="middle">namespace: data</text>
+  <text class="d-mono" x="674" y="420" text-anchor="middle">stateful tier</text>
+
+  <path class="d-edge d-edge--accent" d="M674 188 L674 244" marker-end="url(#eh-a)" />
+  <text class="d-mono" x="690" y="220">allowed</text>
+  <path class="d-edge d-edge--accent" d="M674 314 L674 370" marker-end="url(#eh-a)" />
+  <text class="d-mono" x="690" y="346">allowed</text>
+
+  <!-- blocked shortcut -->
+  <path class="d-edge d-edge--dashed" d="M756 153 L858 153 L858 405 L756 405" />
+  <line class="d-edge" x1="846" y1="267" x2="870" y2="291" />
+  <line class="d-edge" x1="870" y1="267" x2="846" y2="291" />
+  <text class="d-mono" x="882" y="250">web → data</text>
+  <text class="d-mono" x="882" y="268">denied</text>
+
+  <rect class="d-box d-box--muted" x="592" y="474" width="364" height="62" rx="6" />
+  <text class="d-sub" x="774" y="500" text-anchor="middle">A compromised pod reaches only</text>
+  <text class="d-sub" x="774" y="520" text-anchor="middle">what policy allows</text>
+</svg>

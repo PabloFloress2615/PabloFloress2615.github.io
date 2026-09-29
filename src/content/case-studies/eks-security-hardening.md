@@ -8,6 +8,10 @@ stack:
   - NetworkPolicies
   - Kubernetes RBAC
   - OPA Gatekeeper
+diagram:
+  file: 'eks-hardening'
+  alt: 'A deploy request from kubectl or a CI pipeline reaches an OPA Gatekeeper validating admission webhook before anything is persisted. Compliant workloads are admitted; those carrying a hostPath mount, an over-broad role or no NetworkPolicy are rejected at that gate. Inside the production EKS cluster, east-west traffic is deny by default: the web namespace may reach api, and api may reach data, while a direct web-to-data path is blocked. The audit findings were closed as a prioritised set — least-privilege RBAC, hostPath mounts removed, and NetworkPolicies replacing default-allow pod networking.'
+  caption: 'Admission control is the durable half of the work: a remediated cluster that cannot be un-remediated by the next apply.'
 ---
 
 ## Context

@@ -11,6 +11,7 @@ import {
   skillGroups,
   certifications,
   certificationsInProgress,
+  additionalTraining,
   isPlaceholder,
 } from '../data/site';
 
@@ -74,8 +75,12 @@ const caseStudies = (await getCollection('caseStudies', ({ data }) => !data.draf
 
   <Section id="certifications" title="Certifications">
     <CertList items={certifications} />
-    <h3 class="skills__group-name" style="margin-top: var(--space-5);">In progress</h3>
+
+    <h3 class="subhead">In progress</h3>
     <CertList items={certificationsInProgress} />
+
+    <h3 class="subhead">Additional training</h3>
+    <CertList items={additionalTraining} compact />
   </Section>
 
   <Section id="contact" title="Contact" lead="Open to contract and full-time work with US-based teams.">

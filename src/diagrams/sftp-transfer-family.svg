@@ -1,0 +1,91 @@
+<svg class="diagram" viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <defs>
+    <marker id="sh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" class="d-arrow" />
+    </marker>
+    <marker id="sh-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" class="d-arrow--accent" />
+    </marker>
+  </defs>
+
+  <!-- retired -->
+  <rect class="d-region" x="24" y="24" width="952" height="56" rx="10" />
+  <text class="d-region-label" x="44" y="48">RETIRED</text>
+  <text class="d-sub" x="44" y="68">Self-managed SFTP servers on EC2 — patching, availability and manual connection setup owned by the team</text>
+
+  <!-- partners -->
+  <rect class="d-box d-box--muted" x="24" y="150" width="166" height="96" rx="7" />
+  <text class="d-title" x="107" y="180" text-anchor="middle">Partners</text>
+  <text class="d-sub" x="107" y="202" text-anchor="middle">unchanged SFTP client</text>
+  <text class="d-mono" x="107" y="224" text-anchor="middle">SSH key auth</text>
+
+  <path class="d-edge d-edge--accent" d="M190 198 L252 198" marker-end="url(#sh-a)" />
+  <text class="d-mono" x="221" y="186" text-anchor="middle">SFTP</text>
+
+  <!-- transfer family -->
+  <rect class="d-box d-box--accent" x="252" y="144" width="192" height="108" rx="7" />
+  <text class="d-title" x="348" y="174" text-anchor="middle">AWS Transfer Family</text>
+  <text class="d-sub" x="348" y="196" text-anchor="middle">managed SFTP endpoint</text>
+  <text class="d-mono" x="348" y="218" text-anchor="middle">patching and availability</text>
+  <text class="d-mono" x="348" y="236" text-anchor="middle">become AWS's problem</text>
+
+  <path class="d-edge d-edge--accent" d="M444 198 L506 198" marker-end="url(#sh-a)" />
+
+  <!-- s3 -->
+  <rect class="d-box d-box--accent" x="506" y="144" width="176" height="108" rx="7" />
+  <text class="d-title" x="594" y="174" text-anchor="middle">Amazon S3</text>
+  <text class="d-sub" x="594" y="196" text-anchor="middle">durable backing store</text>
+  <text class="d-mono" x="594" y="218" text-anchor="middle">lifecycle rules</text>
+  <text class="d-mono" x="594" y="236" text-anchor="middle">access logging</text>
+
+  <!-- s3 to lambda -->
+  <path class="d-edge d-edge--accent" d="M594 252 L594 300" marker-end="url(#sh-a)" />
+  <text class="d-mono" x="610" y="280">upload event</text>
+
+  <!-- lambda -->
+  <rect class="d-box d-box--accent" x="486" y="300" width="216" height="92" rx="7" />
+  <text class="d-title" x="594" y="328" text-anchor="middle">AWS Lambda</text>
+  <text class="d-sub" x="594" y="350" text-anchor="middle">post-transfer processing</text>
+  <text class="d-mono" x="594" y="372" text-anchor="middle">event-driven, not a cron</text>
+
+  <path class="d-edge d-edge--accent" d="M702 346 L764 346" marker-end="url(#sh-a)" />
+
+  <!-- pgp -->
+  <rect class="d-box d-box--accent" x="764" y="300" width="212" height="92" rx="7" />
+  <text class="d-title" x="870" y="334" text-anchor="middle">PGP encryption</text>
+  <text class="d-sub" x="870" y="358" text-anchor="middle">per recipient public key</text>
+
+  <!-- recipient -->
+  <rect class="d-box d-box--muted" x="764" y="144" width="212" height="108" rx="7" />
+  <text class="d-title" x="870" y="174" text-anchor="middle">Recipient</text>
+  <text class="d-sub" x="870" y="196" text-anchor="middle">healthcare data partner</text>
+  <text class="d-mono" x="870" y="218" text-anchor="middle">holds the private key</text>
+  <path class="d-edge d-edge--accent" d="M870 300 L870 252" marker-end="url(#sh-a)" />
+
+  <!-- two layers callout -->
+  <text class="d-accent-label" x="107" y="290" text-anchor="middle">two independent layers</text>
+  <text class="d-mono" x="107" y="312" text-anchor="middle">transport: SSH keys</text>
+  <text class="d-mono" x="107" y="330" text-anchor="middle">payload: PGP per recipient</text>
+  <text class="d-mono" x="107" y="356" text-anchor="middle">A file stays unreadable</text>
+  <text class="d-mono" x="107" y="374" text-anchor="middle">after it leaves the pipeline.</text>
+
+  <!-- control plane band -->
+  <rect class="d-region" x="24" y="428" width="952" height="104" rx="10" />
+  <text class="d-region-label" x="44" y="456">EVERY CONNECTION MANAGED AS CODE</text>
+
+  <rect class="d-box" x="44" y="470" width="292" height="46" rx="6" />
+  <text class="d-sub" x="190" y="490" text-anchor="middle">Terraform</text>
+  <text class="d-mono" x="190" y="508" text-anchor="middle">users, roles, keys, bucket policy</text>
+
+  <path class="d-edge" d="M336 493 L390 493" marker-end="url(#sh)" />
+
+  <rect class="d-box" x="390" y="470" width="292" height="46" rx="6" />
+  <text class="d-sub" x="536" y="490" text-anchor="middle">CI/CD pipeline</text>
+  <text class="d-mono" x="536" y="508" text-anchor="middle">peer review before anything applies</text>
+
+  <path class="d-edge" d="M682 493 L736 493" marker-end="url(#sh)" />
+
+  <rect class="d-box d-box--accent" x="736" y="470" width="240" height="46" rx="6" />
+  <text class="d-sub" x="856" y="490" text-anchor="middle">Auditable change trail</text>
+  <text class="d-mono" x="856" y="508" text-anchor="middle">what healthcare data demands</text>
+</svg>

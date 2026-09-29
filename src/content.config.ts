@@ -24,14 +24,19 @@ const caseStudies = defineCollection({
     order: z.number().int().positive(),
     /** Technologies listed on the card and in the page header. */
     stack: z.array(z.string()).min(1),
-    /** Optional architecture diagram rendered above the prose. */
+    /**
+     * Optional architecture diagram rendered above the prose.
+     *
+     * `file` is the basename of an SVG in src/diagrams/, which is inlined at
+     * build time so it inherits the theme tokens. `alt` carries the meaning for
+     * anyone who cannot see it, so it describes the architecture rather than
+     * saying "architecture diagram".
+     */
     diagram: z
       .object({
-        src: z.string(),
+        file: z.string(),
         alt: z.string(),
         caption: z.string().optional(),
-        width: z.number().int().positive(),
-        height: z.number().int().positive(),
       })
       .optional(),
     /** Draft entries are excluded from production builds. */

@@ -1,0 +1,124 @@
+/*
+ * Inline architecture diagrams.
+ *
+ * The SVGs carry no colours of their own — they use these classes, which read
+ * the theme tokens. That is the whole reason the diagrams are inline SVG and
+ * not PNG: a raster diagram would keep a fixed background, read as a bright
+ * slab in dark mode, and have to be regenerated whenever a token changes.
+ */
+
+.diagram {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* Diagrams are authored at a fixed logical width. Below that the figure
+     scrolls rather than shrinking the labels into illegibility. */
+  min-width: 46rem;
+}
+
+.diagram-scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+  padding: var(--space-4);
+}
+
+@media (min-width: 56rem) {
+  .diagram {
+    min-width: 0;
+  }
+
+  .diagram-scroll {
+    overflow-x: visible;
+  }
+}
+
+/* --- diagram primitives --- */
+
+.d-region {
+  fill: none;
+  stroke: var(--color-border-strong);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 5;
+}
+
+.d-box {
+  fill: var(--color-bg);
+  stroke: var(--color-border-strong);
+  stroke-width: 1.5;
+}
+
+.d-box--accent {
+  stroke: var(--color-accent);
+  stroke-width: 2;
+}
+
+.d-box--muted {
+  fill: var(--color-surface-hover);
+  stroke: var(--color-border);
+}
+
+.d-chip {
+  fill: var(--color-surface-hover);
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.d-title {
+  fill: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.d-sub {
+  fill: var(--color-text-muted);
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+}
+
+.d-mono {
+  fill: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+}
+
+.d-region-label {
+  fill: var(--color-text-muted);
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+}
+
+.d-accent-label {
+  fill: var(--color-accent);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.d-edge {
+  fill: none;
+  stroke: var(--color-border-strong);
+  stroke-width: 1.75;
+}
+
+.d-edge--accent {
+  stroke: var(--color-accent);
+  stroke-width: 2;
+}
+
+.d-edge--dashed {
+  stroke-dasharray: 5 4;
+}
+
+.d-arrow {
+  fill: var(--color-border-strong);
+}
+
+.d-arrow--accent {
+  fill: var(--color-accent);
+}
